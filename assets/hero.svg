@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A rough concrete monolith split by a crack from which a wing of liquid light emerges.">
+  <title>Concrete fracture and a wing of light</title>
+
+  <defs>
+    <!-- ============ CONCRETE MATERIAL ============ -->
+    <linearGradient id="concreteBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#15161a"/>
+      <stop offset="50%" stop-color="#0b0c10"/>
+      <stop offset="100%" stop-color="#050507"/>
+    </linearGradient>
+
+    <radialGradient id="concreteShade" cx="50%" cy="45%" r="65%">
+      <stop offset="0%"  stop-color="#22232a" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#0d0e12" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#020203" stop-opacity="1"/>
+    </radialGradient>
+
+    <filter id="concreteGrain" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n1"/>
+      <feColorMatrix in="n1" type="matrix" values="0 0 0 0 0.06
+                                                   0 0 0 0 0.06
+                                                   0 0 0 0 0.07
+                                                   0 0 0 0.55 0" result="grainA"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="11" result="n2"/>
+      <feColorMatrix in="n2" type="matrix" values="0 0 0 0 0.10
+                                                   0 0 0 0 0.10
+                                                   0 0 0 0 0.11
+                                                   0 0 0 0.8 0" result="grainB"/>
+      <feComposite in="grainA" in2="grainB" operator="over" result="grainMix"/>
+      <feComposite in="grainMix" in2="SourceGraphic" operator="in" result="maskedGrain"/>
+      <feBlend in="SourceGraphic" in2="maskedGrain" mode="overlay"/>
+    </filter>
+
+    <filter id="displaceEdges" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.014" numOctaves="2" seed="3" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="18"/>
+    </filter>
+
+    <!-- ============ LIGHT / WING MATERIAL ============ -->
+    <radialGradient id="coreLight" cx="50%" cy="55%" r="55%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="35%"  stop-color="#fbf7ea" stop-opacity="0.95"/>
+      <stop offset="70%"  stop-color="#cfc9b8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="wingA" x1="0.2" y1="0.1" x2="0.85" y2="0.95">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="40%"  stop-color="#f6f1e0" stop-opacity="0.72"/>
+      <stop offset="78%"  stop-color="#d7cfbb" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="wingB" x1="0.1" y1="0.2" x2="1" y2="0.9">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="55%"  stop-color="#e9e3cf" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="wingEdgeCool" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"  stop-color="#c9e0ff" stop-opacity="0.0"/>
+      <stop offset="50%" stop-color="#d3e7ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#a5c9ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="wingEdgeWarm" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#ffd9ad" stop-opacity="0.0"/>
+      <stop offset="50%" stop-color="#ffe8c7" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffb887" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18" result="b1"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="bigGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="48"/>
+    </filter>
+
+    <filter id="liquidWarp" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.009" numOctaves="2" seed="5" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="28"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+
+    <!-- subsurface scattering approximation -->
+    <filter id="sss" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="glowA"/>
+      <feSpecularLighting in="glowA" surfaceScale="2" specularConstant="0.9" specularExponent="24" lighting-color="#ffffff" result="spec">
+        <feDistantLight azimuth="230" elevation="55"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specClip"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="specClip"/>
+      </feMerge>
+    </filter>
+
+    <!-- crack shape clip -->
+    <clipPath id="monolithClip">
+      <path d="M 220,180
+               C 260,160 360,150 480,160
+               C 640,170 820,150 980,170
+               C 1160,190 1320,175 1380,210
+               L 1395,980
+               C 1370,1010 1220,1030 1050,1025
+               C 860,1018 680,1035 500,1025
+               C 340,1015 240,1020 210,995
+               Z"/>
+    </clipPath>
+
+    <!-- mask to carve a crack channel through the wing for the concrete to read correctly -->
+    <mask id="concreteMask">
+      <rect x="0" y="0" width="1600" height="1200" fill="white"/>
+      <!-- central light column removes some concrete -->
+      <ellipse cx="800" cy="600" rx="170" ry="380" fill="black" filter="url(#bigGlow)"/>
+    </mask>
+  </defs>
+
+  <!-- deep atmospheric backdrop -->
+  <rect x="0" y="0" width="1600" height="1200" fill="#040405"/>
+  <rect x="0" y="0" width="1600" height="1200" fill="url(#concreteBase)" opacity="0.6"/>
+
+  <!-- far glow halo behind monolith -->
+  <ellipse cx="800" cy="620" rx="520" ry="380" fill="#ffffff" opacity="0.05" filter="url(#bigGlow)"/>
+  <ellipse cx="800" cy="620" rx="240" ry="260" fill="#fff7df" opacity="0.09" filter="url(#bigGlow)"/>
+
+  <!-- ========= MONOLITH (concrete block) ========= -->
+  <g clip-path="url(#monolithClip)" mask="url(#concreteMask)">
+    <!-- base -->
+    <rect x="0" y="0" width="1600" height="1200" fill="url(#concreteShade)"/>
+    <!-- radial vignette into block -->
+    <rect x="0" y="0" width="1600" height="1200" fill="url(#concreteBase)" opacity="0.5"/>
+    <!-- heavy grain -->
+    <rect x="0" y="0" width="1600" height="1200" fill="#0e0f13" filter="url(#concreteGrain)" opacity="0.9"/>
+    <!-- broad tonal streaks -->
+    <g opacity="0.18" filter="url(#displaceEdges)">
+      <rect x="220" y="220" width="1160" height="30" fill="#1b1c22"/>
+      <rect x="240" y="420" width="1120" height="20" fill="#181920"/>
+      <rect x="260" y="620" width="1080" height="24" fill="#15171d"/>
+      <rect x="240" y="820" width="1120" height="18" fill="#101217"/>
+    </g>
+
+    <!-- stress cracks radiating from the fracture -->
+    <g stroke="#020203" stroke-width="1.1" fill="none" opacity="0.85" filter="url(#displaceEdges)">
+      <path d="M 795,260 C 760,360 830,460 770,560 C 720,650 830,740 780,860 C 740,960 810,1000 800,1050"/>
+      <path d="M 790,320 C 720,380 760,480 640,520 C 540,555 440,600 360,660"/>
+      <path d="M 815,330 C 880,400 940,460 1060,500 C 1180,540 1280,580 1380,640"/>
+      <path d="M 800,480 C 700,540 600,540 480,600 C 400,640 320,700 260,760"/>
+      <path d="M 800,520 C 900,580 1020,580 1140,650 C 1240,700 1320,740 1380,780"/>
+      <path d="M 798,720 C 730,780 640,820 560,880"/>
+      <path d="M 808,740 C 900,800 1000,830 1080,900"/>
+    </g>
+    <!-- fine hairline cracks -->
+    <g stroke="#05060a" stroke-width="0.6" fill="none" opacity="0.6">
+      <path d="M 400,300 C 500,330 620,310 700,360"/>
+      <path d="M 1100,340 C 1200,380 1280,380 1340,420"/>
+      <path d="M 300,700 C 380,740 460,740 540,780"/>
+      <path d="M 1080,760 C 1180,780 1260,820 1320,860"/>
+      <path d="M 600,900 C 680,930 760,940 820,960"/>
+    </g>
+
+    <!-- micro-chip highlights along fracture -->
+    <g fill="#f4eed8" opacity="0.14">
+      <circle cx="798" cy="310" r="1.2"/>
+      <circle cx="790" cy="420" r="1.6"/>
+      <circle cx="802" cy="520" r="1.1"/>
+      <circle cx="795" cy="620" r="1.8"/>
+      <circle cx="800" cy="720" r="1.2"/>
+      <circle cx="796" cy="820" r="1.5"/>
+      <circle cx="800" cy="930" r="1.1"/>
+    </g>
+  </g>
+
+  <!-- soft edge feather on monolith -->
+  <g clip-path="url(#monolithClip)">
+    <rect x="0" y="0" width="1600" height="1200" fill="url(#concreteShade)" opacity="0" />
+  </g>
+
+  <!-- ========= THE WING OF LIGHT ========= -->
+  <!-- underlying wide halo that bleeds beyond the crack -->
+  <g filter="url(#bigGlow)" opacity="0.85">
+    <ellipse cx="800" cy="600" rx="120" ry="340" fill="#fff6de" opacity="0.6"/>
+    <ellipse cx="800" cy="600" rx="60" ry="300" fill="#ffffff" opacity="0.9"/>
+  </g>
+
+  <!-- liquid plume core — bright spine of light inside the fracture -->
+  <g filter="url(#softGlow)">
+    <path d="M 800,230
+             C 815,360 780,430 805,520
+             C 828,600 770,680 810,760
+             C 845,830 785,900 805,980"
+          stroke="url(#coreLight)" stroke-width="26" stroke-linecap="round" fill="none" opacity="0.85"/>
+    <path d="M 800,260
+             C 810,360 785,430 802,520
+             C 820,600 780,680 806,760
+             C 832,830 790,900 803,960"
+          stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.95"/>
+  </g>
+
+  <!-- upper wing sweep (liquid shelf/silk) -->
+  <g filter="url(#liquidWarp)">
+    <path d="M 795,300
+             C 880,250 1020,250 1180,310
+             C 1320,360 1420,440 1460,540
+             C 1410,540 1330,520 1230,520
+             C 1100,520 980,510 900,490
+             C 850,478 820,440 805,400
+             Z"
+          fill="url(#wingA)" opacity="0.92"/>
+    <path d="M 805,320
+             C 900,290 1040,300 1180,360
+             C 1300,410 1380,480 1410,560
+             C 1320,548 1220,530 1120,520
+             C 1020,510 930,500 870,478
+             C 830,462 812,430 805,400
+             Z"
+          fill="url(#wingB)" opacity="0.55"/>
+    <!-- chromatic edges -->
+    <path d="M 795,300
+             C 880,250 1020,250 1180,310
+             C 1320,360 1420,440 1460,540"
+          stroke="url(#wingEdgeCool)" stroke-width="3" fill="none" opacity="0.9"/>
+    <path d="M 805,400
+             C 820,440 850,478 900,490
+             C 980,510 1100,520 1230,520"
+          stroke="url(#wingEdgeWarm)" stroke-width="2" fill="none" opacity="0.9"/>
+  </g>
+
+  <!-- lower wing sweep (counterweight) -->
+  <g filter="url(#liquidWarp)" opacity="0.9">
+    <path d="M 800,780
+             C 740,840 640,900 520,940
+             C 400,975 300,980 240,960
+             C 310,930 420,880 540,840
+             C 650,806 740,788 800,780
+             Z"
+          fill="url(#wingA)" opacity="0.7"/>
+    <path d="M 800,800
+             C 720,860 600,910 480,940
+             C 380,962 300,962 260,948
+             C 340,918 460,870 580,840
+             C 680,816 755,804 800,800
+             Z"
+          fill="url(#wingB)" opacity="0.5"/>
+    <path d="M 800,780 C 740,840 640,900 520,940 C 400,975 300,980 240,960"
+          stroke="url(#wingEdgeCool)" stroke-width="2" fill="none" opacity="0.7"/>
+  </g>
+
+  <!-- liquid droplets / dispersion particles -->
+  <g fill="#ffffff" filter="url(#softGlow)">
+    <circle cx="1180" cy="360" r="3.2" opacity="0.9"/>
+    <circle cx="1260" cy="400" r="2.3" opacity="0.8"/>
+    <circle cx="1340" cy="470" r="1.8" opacity="0.7"/>
+    <circle cx="1420" cy="540" r="1.3" opacity="0.6"/>
+    <circle cx="960"  cy="300" r="2" opacity="0.7"/>
+    <circle cx="1040" cy="280" r="1.5" opacity="0.6"/>
+
+    <circle cx="520"  cy="920" r="2.6" opacity="0.8"/>
+    <circle cx="420"  cy="945" r="1.8" opacity="0.7"/>
+    <circle cx="320"  cy="960" r="1.3" opacity="0.5"/>
+    <circle cx="620"  cy="900" r="1.6" opacity="0.7"/>
+
+    <circle cx="800" cy="235" r="3"   opacity="1"/>
+    <circle cx="800" cy="985" r="2.4" opacity="0.9"/>
+  </g>
+
+  <!-- caustic streaks -->
+  <g stroke="#ffffff" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M 820,330 C 900,320 1000,332 1100,360"/>
+    <path d="M 830,370 C 920,372 1020,388 1120,420"/>
+    <path d="M 800,820 C 700,840 600,870 500,900"/>
+    <path d="M 800,850 C 720,875 620,900 520,930"/>
+  </g>
+
+  <!-- vignette top/bottom -->
+  <rect x="0" y="0" width="1600" height="140" fill="url(#concreteBase)" opacity="0.6"/>
+  <rect x="0" y="1060" width="1600" height="140" fill="url(#concreteBase)" opacity="0.6"/>
+</svg>
